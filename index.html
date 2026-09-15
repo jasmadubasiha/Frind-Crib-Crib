@@ -12,7 +12,7 @@
         
         .input-group { margin-bottom: 12px; }
         label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 13px; color: #333; }
-        input[type="text"], input[type="password"], textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; box-sizing: border-box; }
+        input[type="text"], input[type="password"] { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; box-sizing: border-box; }
         
         .checkbox-section { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; padding: 12px; margin-bottom: 12px; }
         .option-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 13px; font-weight: 500; }
@@ -63,10 +63,6 @@
         <label>නම (Name):</label>
         <input type="text" id="addName" placeholder="නම ඇතුළත් කරන්න">
     </div>
-    <div class="input-group">
-        <label>දුරකථන අංකය (Phone Number):</label>
-        <input type="text" id="addPhone" placeholder="07X XXXXXXX">
-    </div>
 
     <!-- SUITABILITY RADIOS -->
     <div class="checkbox-section">
@@ -89,9 +85,16 @@
         <div class="option-row"><span>හොර වැඩ කිරීම:</span><div class="radio-options"><label><input type="radio" name="addIllegal" value="1"> ඔව්</label><label><input type="radio" name="addIllegal" value="0"> නැත</label></div></div>
     </div>
 
-    <div class="input-group">
-        <label>සිදුකළ වැරැද්ද (Note):</label>
-        <textarea id="addNote" rows="3" placeholder="වැරැද්ද පිළිබඳ විස්තරය..."></textarea>
+    <!-- SUSPICIOUS LEVEL EVALUATION -->
+    <div class="checkbox-section" style="background: #eef9f1; border-color: #c3e6cb;">
+        <label style="color: #155724; font-size: 14px; margin-bottom: 10px;">3. විශේෂ තත්ත්වය (+7% ලකුණු):</label>
+        <div class="option-row">
+            <span>සැකකිය යුතු මට්ටමෙන්:</span>
+            <div class="radio-options">
+                <label><input type="radio" name="addSuspicion" value="1"> හොඳයි (+7%)</label>
+                <label><input type="radio" name="addSuspicion" value="0"> නරකයි</label>
+            </div>
+        </div>
     </div>
     
     <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 15px;">
@@ -104,8 +107,8 @@
     <!-- SEARCH SECTION -->
     <h3>2. සෙවීම (Search Crib)</h3>
     <div class="input-group">
-        <label>නම හෝ දුරකථන අංකය ඇතුළත් කරන්න:</label>
-        <input type="text" id="searchQuery" placeholder="Search by Name or Phone...">
+        <label>නම ඇතුළත් කරන්න:</label>
+        <input type="text" id="searchQuery" placeholder="Search by Name...">
     </div>
     <button class="search-btn" onclick="searchRecord()">සොයන්න (Search)</button>
 
@@ -115,7 +118,6 @@
             <span class="status-badge">⚠️ FLAGGED IN CRIB</span>
             
             <div class="detail-item"><b>නම:</b> <span id="resName"></span></div>
-            <div class="detail-item"><b>දුරකථන අංකය:</b> <span id="resPhone"></span></div>
             
             <button class="calc-btn" id="btnCalculate" onclick="startCalculation()">🔍 මෙම කෙනාගේ තත්වය පරීක්ෂා කරන්න (Calculate Trust)</button>
 
@@ -138,7 +140,7 @@
                 <!-- Locked Area -->
                 <div class="secret-box">
                     <div id="lockState">
-                        <label>වැඩිදුර විස්තර & Note එක බැලීමට Password එක ගසන්න:</label>
+                        <label>වැඩිදුර විස්තර බැලීමට Password එක ගසන්න:</label>
                         <input type="password" id="passInput" placeholder="Enter Password">
                         <button style="background: #34495e; margin-top: 8px;" onclick="unlockNote()">Unlock Details & Options</button>
                         <div id="errorMsg" class="error-msg">කරුණාකර නිවැරදි Password එක ඇතුළත් කරන්න!</div>
@@ -162,10 +164,12 @@
                             <li id="resIllegal"></li>
                         </ul>
 
-                        <label style="color: #c0392b; font-weight: bold; display: block; margin-top: 10px;">සිදුකළ වැරැද්ද (Note):</label>
-                        <p id="resNote" style="margin: 5px 0 10px 0; font-size: 14px; color: #2c3e50; font-weight: 500;"></p>
+                        <label style="color: #27ae60; font-weight: bold; margin-top: 10px; display: block;">විශේෂ තත්ත්වය:</label>
+                        <ul class="suitability-list">
+                            <li id="resSuspicion"></li>
+                        </ul>
                         
-                        <button style="background: #d35400; padding: 6px; font-size: 12px;" onclick="toggleEditForm()">✏️ තොරතුරු වෙනස් කරන්න (Edit Details)</button>
+                        <button style="background: #d35400; padding: 6px; font-size: 12px; margin-top: 10px;" onclick="toggleEditForm()">✏️ තොරතුරු වෙනස් කරන්න (Edit Details)</button>
                         
                         <!-- EDIT FORM -->
                         <div id="editForm" class="edit-section" style="display: none;">
@@ -173,10 +177,6 @@
                             <div class="input-group">
                                 <label>අලුත් නම:</label>
                                 <input type="text" id="editName">
-                            </div>
-                            <div class="input-group">
-                                <label>අලුත් දුරකථන අංකය:</label>
-                                <input type="text" id="editPhone">
                             </div>
 
                             <div class="checkbox-section">
@@ -196,10 +196,11 @@
                                 <div class="option-row"><span>හොර වැඩ කිරීම:</span><div class="radio-options"><label><input type="radio" name="editIllegal" value="1"> ඔව්</label><label><input type="radio" name="editIllegal" value="0"> නැත</label></div></div>
                             </div>
 
-                            <div class="input-group">
-                                <label>අලුත් Note එක:</label>
-                                <textarea id="editNote" rows="3"></textarea>
+                            <div class="checkbox-section" style="background: #eef9f1; border-color: #c3e6cb;">
+                                <label style="color: #155724; font-size: 13px;">3. විශේෂ තත්ත්වය වෙනස් කරන්න:</label>
+                                <div class="option-row"><span>සැකකිය යුතු මට්ටමෙන්:</span><div class="radio-options"><label><input type="radio" name="editSuspicion" value="1"> හොඳයි (+7%)</label><label><input type="radio" name="editSuspicion" value="0"> නරකයි</label></div></div>
                             </div>
+
                             <button class="update-btn" onclick="saveUpdatedRecord()">Save Changes & Recalculate</button>
                         </div>
                     </div>
@@ -215,7 +216,7 @@
 
     // Automatic Trust % Calculation Function
     function calculateTrustScore(data) {
-        let score = 70; // Base score
+        let score = 63; // Base score (Adjusted to accommodate +7% bonus cleanly up to 100%)
 
         // Positive Points (+6 each = +30 max)
         if (data.money) score += 6;
@@ -223,6 +224,9 @@
         if (data.help) score += 6;
         if (data.askHelp) score += 6;
         if (data.home) score += 6;
+
+        // Suspicion Bonus (+7%)
+        if (data.suspicion) score += 7;
 
         // Negative Penalties
         if (data.breakTrust) score -= 20;
@@ -234,9 +238,9 @@
     }
 
     function getTrustLevel(score) {
-        if (score >= 95) return { text: "Healthy Good", color: "#2ecc71" };
-        if (score >= 76) return { text: "Normal Good", color: "#3498db" };
-        if (score >= 51) return { text: "Medium", color: "#f39c12" };
+        if (score >= 90) return { text: "Healthy Good", color: "#2ecc71" };
+        if (score >= 70) return { text: "Normal Good", color: "#3498db" };
+        if (score >= 45) return { text: "Medium", color: "#f39c12" };
         return { text: "High Risk (අවදානම්)", color: "#e74c3c" };
     }
 
@@ -256,8 +260,6 @@
 
     function addRecord() {
         const name = document.getElementById('addName').value.trim();
-        const phone = document.getElementById('addPhone').value.trim();
-        const note = document.getElementById('addNote').value.trim();
         const confirmed = document.getElementById('confirmCheck').checked;
 
         const money = getRadioVal('addMoney');
@@ -271,8 +273,10 @@
         const fraud = getRadioVal('addFraud');
         const illegal = getRadioVal('addIllegal');
 
-        if (!name || !phone || !note || money === null || trip === null || help === null || askHelp === null || home === null || breakTrust === null || lie === null || fraud === null || illegal === null) {
-            alert('කරුණාකර සියලු විස්තර සහ තේරීම් ඇතුළත් කරන්න!');
+        const suspicion = getRadioVal('addSuspicion');
+
+        if (!name || money === null || trip === null || help === null || askHelp === null || home === null || breakTrust === null || lie === null || fraud === null || illegal === null || suspicion === null) {
+            alert('කරුණාකර නම සහ සියලුම තේරීම් ඇතුළත් කරන්න!');
             return;
         }
 
@@ -281,17 +285,15 @@
             return;
         }
 
-        database.push({ name, phone, note, money, trip, help, askHelp, home, breakTrust, lie, fraud, illegal });
+        database.push({ name, money, trip, help, askHelp, home, breakTrust, lie, fraud, illegal, suspicion });
         localStorage.setItem('cribDatabase', JSON.stringify(database));
 
         alert('තොරතුරු Crib එකට සාර්ථකව එකතු කරන ලදී!');
         
         // Clear Form
         document.getElementById('addName').value = '';
-        document.getElementById('addPhone').value = '';
-        document.getElementById('addNote').value = '';
         document.getElementById('confirmCheck').checked = false;
-        ['addMoney','addTrip','addHelp','addAskHelp','addHome','addBreakTrust','addLie','addFraud','addIllegal'].forEach(n => {
+        ['addMoney','addTrip','addHelp','addAskHelp','addHome','addBreakTrust','addLie','addFraud','addIllegal','addSuspicion'].forEach(n => {
             let r = document.getElementsByName(n);
             if(r.length) { r[0].checked = false; r[1].checked = false; }
         });
@@ -302,18 +304,17 @@
         const resultArea = document.getElementById('resultArea');
         
         if (!query) {
-            alert('සෙවීමට නමක් හෝ දුරකථන අංකයක් ඇතුළත් කරන්න!');
+            alert('සෙවීමට නමක් ඇතුළත් කරන්න!');
             return;
         }
 
         currentFoundIndex = database.findIndex(item => 
-            item.name.toLowerCase().includes(query) || item.phone.includes(query)
+            item.name.toLowerCase().includes(query)
         );
 
         if (currentFoundIndex !== -1) {
             const found = database[currentFoundIndex];
             document.getElementById('resName').innerText = found.name;
-            document.getElementById('resPhone').innerText = found.phone;
             
             document.getElementById('btnCalculate').style.display = 'block';
             document.getElementById('calcLoader').style.display = 'none';
@@ -322,7 +323,7 @@
             resultArea.style.display = 'block';
         } else {
             resultArea.style.display = 'none';
-            alert('මෙම නමින් හෝ අංකයෙන් Crib එකේ කිසිවෙකු නැත!');
+            alert('මෙම නමින් Crib එකේ කිසිවෙකු නැත!');
         }
     }
 
@@ -366,7 +367,8 @@
             document.getElementById('resFraud').innerHTML = `මුදල් වංචා කිරීම: ${found.fraud ? '<span class="tag-no">⚠️ ඔව්</span>' : '<span class="tag-yes">✓ නැත</span>'}`;
             document.getElementById('resIllegal').innerHTML = `හොර වැඩ කිරීම: ${found.illegal ? '<span class="tag-no">⚠️ ඔව්</span>' : '<span class="tag-yes">✓ නැත</span>'}`;
 
-            document.getElementById('resNote').innerText = found.note;
+            // Display Suspicion Bonus Status
+            document.getElementById('resSuspicion').innerHTML = `සැකකිය යුතු මට්ටමෙන්: ${found.suspicion ? '<span class="tag-yes">✓ හොඳයි (+7%)</span>' : '<span class="tag-no">✗ නරකයි (0%)</span>'}`;
 
             // Reset Locks
             document.getElementById('lockState').style.display = 'block';
@@ -393,8 +395,6 @@
         if (editForm.style.display === 'none') {
             const item = database[currentFoundIndex];
             document.getElementById('editName').value = item.name;
-            document.getElementById('editPhone').value = item.phone;
-            document.getElementById('editNote').value = item.note;
 
             setRadioVal('editMoney', item.money);
             setRadioVal('editTrip', item.trip);
@@ -407,6 +407,8 @@
             setRadioVal('editFraud', item.fraud);
             setRadioVal('editIllegal', item.illegal);
 
+            setRadioVal('editSuspicion', item.suspicion);
+
             editForm.style.display = 'block';
         } else {
             editForm.style.display = 'none';
@@ -415,8 +417,6 @@
 
     function saveUpdatedRecord() {
         const name = document.getElementById('editName').value.trim();
-        const phone = document.getElementById('editPhone').value.trim();
-        const note = document.getElementById('editNote').value.trim();
 
         const money = getRadioVal('editMoney');
         const trip = getRadioVal('editTrip');
@@ -429,12 +429,14 @@
         const fraud = getRadioVal('editFraud');
         const illegal = getRadioVal('editIllegal');
 
-        if (!name || !phone || !note || money === null || trip === null || help === null || askHelp === null || home === null || breakTrust === null || lie === null || fraud === null || illegal === null) {
+        const suspicion = getRadioVal('editSuspicion');
+
+        if (!name || money === null || trip === null || help === null || askHelp === null || home === null || breakTrust === null || lie === null || fraud === null || illegal === null || suspicion === null) {
             alert('සියලුම විස්තර පිරවිය යුතුයි!');
             return;
         }
 
-        database[currentFoundIndex] = { name, phone, note, money, trip, help, askHelp, home, breakTrust, lie, fraud, illegal };
+        database[currentFoundIndex] = { name, money, trip, help, askHelp, home, breakTrust, lie, fraud, illegal, suspicion };
         localStorage.setItem('cribDatabase', JSON.stringify(database));
 
         alert('තොරතුරු සාර්ථකව යාවත්කාලීන කරන ලදී!');
