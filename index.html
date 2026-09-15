@@ -14,16 +14,18 @@
         label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 13px; color: #333; }
         input[type="text"], input[type="number"], input[type="password"], textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; box-sizing: border-box; }
         
-        .checkbox-section { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; padding: 10px; margin-bottom: 12px; }
-        .checkbox-group { display: flex; align-items: center; gap: 10px; margin: 8px 0; }
-        .checkbox-group input { width: 18px; height: 18px; cursor: pointer; }
-        .checkbox-group label { margin: 0; cursor: pointer; font-size: 13px; font-weight: 500; }
+        .checkbox-section { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; padding: 12px; margin-bottom: 12px; }
+        .option-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 13px; font-weight: 500; }
+        .radio-options { display: flex; gap: 10px; }
+        .radio-options label { display: flex; align-items: center; gap: 3px; margin: 0; font-size: 12px; cursor: pointer; }
 
         button { width: 100%; padding: 10px; background: #c0392b; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 5px; font-size: 14px; }
         button:hover { background: #a93226; }
         
         .search-btn { background: #2980b9; }
         .search-btn:hover { background: #2471a3; }
+        .calc-btn { background: #8e44ad; font-size: 15px; margin-top: 15px; padding: 12px; }
+        .calc-btn:hover { background: #71368a; }
         .update-btn { background: #27ae60; margin-top: 10px; }
         .update-btn:hover { background: #219150; }
         
@@ -32,8 +34,13 @@
         .trust-badge { padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; color: white; display: inline-block; margin-left: 5px; }
         .detail-item { font-size: 14px; margin-bottom: 8px; color: #333; }
         
-        .progress-container { background-color: #e0e0e0; border-radius: 8px; height: 15px; width: 100%; margin-top: 3px; overflow: hidden; }
-        .progress-bar { height: 100%; width: 0%; transition: width 0.4s ease; text-align: center; color: white; font-size: 10px; line-height: 15px; font-weight: bold; }
+        .progress-container { background-color: #e0e0e0; border-radius: 8px; height: 18px; width: 100%; margin-top: 5px; overflow: hidden; }
+        .progress-bar { height: 100%; width: 0%; transition: width 1s ease-in-out; text-align: center; color: white; font-size: 11px; line-height: 18px; font-weight: bold; }
+
+        /* Animation Loading Box */
+        .loader-box { text-align: center; padding: 15px; display: none; }
+        .spinner { border: 4px solid #f3f3f3; border-top: 4px solid #8e44ad; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 0 auto 10px auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         .secret-box { background: #edf2f7; padding: 12px; border-radius: 6px; margin-top: 15px; border: 1px dashed #cbd5e0; }
         .error-msg { color: #e74c3c; font-size: 12px; margin-top: 5px; display: none; }
@@ -66,29 +73,44 @@
         <input type="number" id="addTrust" min="0" max="100" placeholder="උදා: 80">
     </div>
 
-    <!-- SUITABILITY CHECKBOXES -->
+    <!-- SUITABILITY RADIOS (YES / NO) -->
     <div class="checkbox-section">
-        <label style="color: #2c3e50; font-size: 14px; margin-bottom: 8px;">සුදුසුකම් පරීක්ෂාව (සුදුසු නම් Tik කරන්න):</label>
+        <label style="color: #2c3e50; font-size: 14px; margin-bottom: 10px;">සුදුසුකම් පරීක්ෂාව:</label>
         
-        <div class="checkbox-group">
-            <input type="checkbox" id="addChkMoney">
-            <label for="addChkMoney">මුදල් ගනුදෙනු කිරීමට සුදුසුයි</label>
+        <div class="option-row">
+            <span>මුදල් ගනුදෙනු කිරීමට:</span>
+            <div class="radio-options">
+                <label><input type="radio" name="addMoney" value="1"> සුදුසුයි</label>
+                <label><input type="radio" name="addMoney" value="0"> නොසුදුසුයි</label>
+            </div>
         </div>
-        <div class="checkbox-group">
-            <input type="checkbox" id="addChkTrip">
-            <label for="addChkTrip">ගමන් යෑමට සුදුසුයි</label>
+        <div class="option-row">
+            <span>ගමන් යෑමට:</span>
+            <div class="radio-options">
+                <label><input type="radio" name="addTrip" value="1"> සුදුසුයි</label>
+                <label><input type="radio" name="addTrip" value="0"> නොසුදුසුයි</label>
+            </div>
         </div>
-        <div class="checkbox-group">
-            <input type="checkbox" id="addChkHelp">
-            <label for="addChkHelp">උදව් කිරීමට සුදුසුයි</label>
+        <div class="option-row">
+            <span>උදව් කිරීමට:</span>
+            <div class="radio-options">
+                <label><input type="radio" name="addHelp" value="1"> සුදුසුයි</label>
+                <label><input type="radio" name="addHelp" value="0"> නොසුදුසුයි</label>
+            </div>
         </div>
-        <div class="checkbox-group">
-            <input type="checkbox" id="addChkAskHelp">
-            <label for="addChkAskHelp">උදව් ඉල්ලීමට සුදුසුයි</label>
+        <div class="option-row">
+            <span>උදව් ඉල්ලීමට:</span>
+            <div class="radio-options">
+                <label><input type="radio" name="addAskHelp" value="1"> සුදුසුයි</label>
+                <label><input type="radio" name="addAskHelp" value="0"> නොසුදුසුයි</label>
+            </div>
         </div>
-        <div class="checkbox-group">
-            <input type="checkbox" id="addChkHome">
-            <label for="addChkHome">ඔහුගේ නිවසට යෑමට සුදුසුයි</label>
+        <div class="option-row">
+            <span>ඔහුගේ නිවසට යෑමට:</span>
+            <div class="radio-options">
+                <label><input type="radio" name="addHome" value="1"> සුදුසුයි</label>
+                <label><input type="radio" name="addHome" value="0"> නොසුදුසුයි</label>
+            </div>
         </div>
     </div>
 
@@ -97,9 +119,9 @@
         <textarea id="addNote" rows="3" placeholder="වැරැද්ද පිළිබඳ විස්තරය..."></textarea>
     </div>
     
-    <div class="checkbox-group" style="margin-bottom: 15px;">
-        <input type="checkbox" id="confirmCheck">
-        <label for="confirmCheck" style="color: #c0392b; font-weight: bold;">මෙම තොරතුරු නිවැරදි බව තහවුරු කරමි (හරි)</label>
+    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 15px;">
+        <input type="checkbox" id="confirmCheck" style="width:18px; height:18px;">
+        <label for="confirmCheck" style="color: #c0392b; font-weight: bold; margin:0;">මෙම තොරතුරු නිවැරදි බව තහවුරු කරමි (හරි)</label>
     </div>
     
     <button onclick="addRecord()">Crib එකට එකතු කරන්න</button>
@@ -119,68 +141,81 @@
             
             <div class="detail-item"><b>නම:</b> <span id="resName"></span></div>
             <div class="detail-item"><b>දුරකථන අංකය:</b> <span id="resPhone"></span></div>
-            <div class="detail-item">
-                <b>විශ්වාසය:</b> <span id="resTrustText" style="font-weight: bold;"></span>
-                <span id="resTrustStatus" class="trust-badge"></span>
-                <div class="progress-container">
-                    <div id="resTrustBar" class="progress-bar">0%</div>
-                </div>
-            </div>
             
-            <!-- Locked Area -->
-            <div class="secret-box">
-                <div id="lockState">
-                    <label>විස්තර & Note එක බැලීමට Password එක ගසන්න:</label>
-                    <input type="password" id="passInput" placeholder="Enter Password">
-                    <button style="background: #34495e; margin-top: 8px;" onclick="unlockNote()">Unlock Details & Options</button>
-                    <div id="errorMsg" class="error-msg">කරුණාකර නිවැරදි Password එක ඇතුළත් කරන්න!</div>
+            <button class="calc-btn" id="btnCalculate" onclick="startCalculation()">🔍 මෙම කෙනාගේ තත්වය පරීක්ෂා කරන්න</button>
+
+            <!-- ANIMATED LOADER -->
+            <div id="calcLoader" class="loader-box">
+                <div class="spinner"></div>
+                <span style="color: #8e44ad; font-weight: bold; font-size: 13px;">තොරතුරු විශ්ලේෂණය කරමින් පවතී...</span>
+            </div>
+
+            <!-- CALCULATED HEALTH RESULTS -->
+            <div id="calcResultDisplay" style="display: none; margin-top: 15px;">
+                <div class="detail-item">
+                    <b>විශ්වාසනීයත්ව මට්ටම:</b> <span id="resTrustText" style="font-weight: bold;"></span>
+                    <span id="resTrustStatus" class="trust-badge"></span>
+                    <div class="progress-container">
+                        <div id="resTrustBar" class="progress-bar">0%</div>
+                    </div>
                 </div>
                 
-                <div id="unlockState" style="display: none;">
-                    <label style="color: #2c3e50; font-weight: bold;">සුදුසුකම් තත්ත්වය:</label>
-                    <ul class="suitability-list">
-                        <li id="resMoney"></li>
-                        <li id="resTrip"></li>
-                        <li id="resHelp"></li>
-                        <li id="resAskHelp"></li>
-                        <li id="resHome"></li>
-                    </ul>
-
-                    <label style="color: #c0392b; font-weight: bold; display: block; margin-top: 10px;">සිදුකළ වැරැද්ද (Note):</label>
-                    <p id="resNote" style="margin: 5px 0 10px 0; font-size: 14px; color: #2c3e50; font-weight: 500;"></p>
+                <!-- Locked Area -->
+                <div class="secret-box">
+                    <div id="lockState">
+                        <label>වැඩිදුර විස්තර & Note එක බැලීමට Password එක ගසන්න:</label>
+                        <input type="password" id="passInput" placeholder="Enter Password">
+                        <button style="background: #34495e; margin-top: 8px;" onclick="unlockNote()">Unlock Details & Options</button>
+                        <div id="errorMsg" class="error-msg">කරුණාකර නිවැරදි Password එක ඇතුළත් කරන්න!</div>
+                    </div>
                     
-                    <button style="background: #d35400; padding: 6px; font-size: 12px;" onclick="toggleEditForm()">✏️ තොරතුරු වෙනස් කරන්න (Edit Details)</button>
-                    
-                    <!-- EDIT FORM -->
-                    <div id="editForm" class="edit-section" style="display: none;">
-                        <h4 style="margin: 0 0 10px 0; color: #2c3e50;">තොරතුරු යාවත්කාලීන කරන්න (Update)</h4>
-                        <div class="input-group">
-                            <label>අලුත් නම:</label>
-                            <input type="text" id="editName">
-                        </div>
-                        <div class="input-group">
-                            <label>අලුත් දුරකථන අංකය:</label>
-                            <input type="text" id="editPhone">
-                        </div>
-                        <div class="input-group">
-                            <label>අලුත් Trust %:</label>
-                            <input type="number" id="editTrust" min="0" max="100">
-                        </div>
+                    <div id="unlockState" style="display: none;">
+                        <label style="color: #2c3e50; font-weight: bold;">සුදුසුකම් තත්ත්වය:</label>
+                        <ul class="suitability-list">
+                            <li id="resMoney"></li>
+                            <li id="resTrip"></li>
+                            <li id="resHelp"></li>
+                            <li id="resAskHelp"></li>
+                            <li id="resHome"></li>
+                        </ul>
 
-                        <div class="checkbox-section">
-                            <label style="color: #2c3e50; font-size: 13px;">සුදුසුකම් වෙනස් කරන්න:</label>
-                            <div class="checkbox-group"><input type="checkbox" id="editChkMoney"><label for="editChkMoney">මුදල් ගනුදෙනු කිරීමට සුදුසුයි</label></div>
-                            <div class="checkbox-group"><input type="checkbox" id="editChkTrip"><label for="editChkTrip">ගමන් යෑමට සුදුසුයි</label></div>
-                            <div class="checkbox-group"><input type="checkbox" id="editChkHelp"><label for="editChkHelp">උදව් කිරීමට සුදුසුයි</label></div>
-                            <div class="checkbox-group"><input type="checkbox" id="editChkAskHelp"><label for="editChkAskHelp">උදව් ඉල්ලීමට සුදුසුයි</label></div>
-                            <div class="checkbox-group"><input type="checkbox" id="editChkHome"><label for="editChkHome">ඔහුගේ නිවසට යෑමට සුදුසුයි</label></div>
-                        </div>
+                        <label style="color: #c0392b; font-weight: bold; display: block; margin-top: 10px;">සිදුකළ වැරැද්ද (Note):</label>
+                        <p id="resNote" style="margin: 5px 0 10px 0; font-size: 14px; color: #2c3e50; font-weight: 500;"></p>
+                        
+                        <button style="background: #d35400; padding: 6px; font-size: 12px;" onclick="toggleEditForm()">✏️ තොරතුරු වෙනස් කරන්න (Edit Details)</button>
+                        
+                        <!-- EDIT FORM -->
+                        <div id="editForm" class="edit-section" style="display: none;">
+                            <h4 style="margin: 0 0 10px 0; color: #2c3e50;">තොරතුරු යාවත්කාලීන කරන්න (Update)</h4>
+                            <div class="input-group">
+                                <label>අලුත් නම:</label>
+                                <input type="text" id="editName">
+                            </div>
+                            <div class="input-group">
+                                <label>අලුත් දුරකථන අංකය:</label>
+                                <input type="text" id="editPhone">
+                            </div>
+                            <div class="input-group">
+                                <label>අලුත් Trust %:</label>
+                                <input type="number" id="editTrust" min="0" max="100">
+                            </div>
 
-                        <div class="input-group">
-                            <label>අලුත් Note එක:</label>
-                            <textarea id="editNote" rows="3"></textarea>
+                            <div class="checkbox-section">
+                                <label style="color: #2c3e50; font-size: 13px;">සුදුසුකම් වෙනස් කරන්න:</label>
+                                
+                                <div class="option-row"><span>මුදල් ගනුදෙනු:</span><div class="radio-options"><label><input type="radio" name="editMoney" value="1"> සුදුසුයි</label><label><input type="radio" name="editMoney" value="0"> නොසුදුසුයි</label></div></div>
+                                <div class="option-row"><span>ගමන් යෑම:</span><div class="radio-options"><label><input type="radio" name="editTrip" value="1"> සුදුසුයි</label><label><input type="radio" name="editTrip" value="0"> නොසුදුසුයි</label></div></div>
+                                <div class="option-row"><span>උදව් කිරීම:</span><div class="radio-options"><label><input type="radio" name="editHelp" value="1"> සුදුසුයි</label><label><input type="radio" name="editHelp" value="0"> නොසුදුසුයි</label></div></div>
+                                <div class="option-row"><span>උදව් ඉල්ලීම:</span><div class="radio-options"><label><input type="radio" name="editAskHelp" value="1"> සුදුසුයි</label><label><input type="radio" name="editAskHelp" value="0"> නොසුදුසුයි</label></div></div>
+                                <div class="option-row"><span>නිවසට යෑම:</span><div class="radio-options"><label><input type="radio" name="editHome" value="1"> සුදුසුයි</label><label><input type="radio" name="editHome" value="0"> නොසුදුසුයි</label></div></div>
+                            </div>
+
+                            <div class="input-group">
+                                <label>අලුත් Note එක:</label>
+                                <textarea id="editNote" rows="3"></textarea>
+                            </div>
+                            <button class="update-btn" onclick="saveUpdatedRecord()">Save Changes (යාවත්කාලීන කරන්න)</button>
                         </div>
-                        <button class="update-btn" onclick="saveUpdatedRecord()">Save Changes (යාවත්කාලීන කරන්න)</button>
                     </div>
                 </div>
             </div>
@@ -199,6 +234,20 @@
         return { text: "High Risk (අවදානම්)", color: "#e74c3c" };
     }
 
+    function getRadioVal(name) {
+        const ele = document.getElementsByName(name);
+        for(let i = 0; i < ele.length; i++) {
+            if(ele[i].checked) return ele[i].value === "1";
+        }
+        return null;
+    }
+
+    function setRadioVal(name, val) {
+        const ele = document.getElementsByName(name);
+        if(val === true) ele[0].checked = true;
+        else if(val === false) ele[1].checked = true;
+    }
+
     function addRecord() {
         const name = document.getElementById('addName').value.trim();
         const phone = document.getElementById('addPhone').value.trim();
@@ -206,14 +255,14 @@
         const note = document.getElementById('addNote').value.trim();
         const confirmed = document.getElementById('confirmCheck').checked;
 
-        const money = document.getElementById('addChkMoney').checked;
-        const trip = document.getElementById('addChkTrip').checked;
-        const help = document.getElementById('addChkHelp').checked;
-        const askHelp = document.getElementById('addChkAskHelp').checked;
-        const home = document.getElementById('addChkHome').checked;
+        const money = getRadioVal('addMoney');
+        const trip = getRadioVal('addTrip');
+        const help = getRadioVal('addHelp');
+        const askHelp = getRadioVal('addAskHelp');
+        const home = getRadioVal('addHome');
 
-        if (!name || !phone || !trust || !note) {
-            alert('කරුණාකර සියලු විස්තර ඇතුළත් කරන්න!');
+        if (!name || !phone || !trust || !note || money === null || trip === null || help === null || askHelp === null || home === null) {
+            alert('කරුණාකර සියලු විස්තර සහ සුදුසු/නොසුදුසු තේරීම් ඇතුළත් කරන්න!');
             return;
         }
 
@@ -229,17 +278,16 @@
 
         alert('තොරතුරු Crib එකට සාර්ථකව එකතු කරන ලදී!');
         
-        // Form Reset
+        // Clear Form
         document.getElementById('addName').value = '';
         document.getElementById('addPhone').value = '';
         document.getElementById('addTrust').value = '';
         document.getElementById('addNote').value = '';
-        document.getElementById('addChkMoney').checked = false;
-        document.getElementById('addChkTrip').checked = false;
-        document.getElementById('addChkHelp').checked = false;
-        document.getElementById('addChkAskHelp').checked = false;
-        document.getElementById('addChkHome').checked = false;
         document.getElementById('confirmCheck').checked = false;
+        ['addMoney','addTrip','addHelp','addAskHelp','addHome'].forEach(n => {
+            let r = document.getElementsByName(n);
+            r[0].checked = false; r[1].checked = false;
+        });
     }
 
     function searchRecord() {
@@ -259,40 +307,62 @@
             const found = database[currentFoundIndex];
             document.getElementById('resName').innerText = found.name;
             document.getElementById('resPhone').innerText = found.phone;
-            document.getElementById('resTrustText').innerText = found.trust + "%";
             
-            // Status & Progress Bar
+            // Hide calculation views initially
+            document.getElementById('btnCalculate').style.display = 'block';
+            document.getElementById('calcLoader').style.display = 'none';
+            document.getElementById('calcResultDisplay').style.display = 'none';
+
+            resultArea.style.display = 'block';
+        } else {
+            resultArea.style.display = 'none';
+            alert('මෙම නමින් හෝ අංකයෙන් Crib එකේ කිසිවෙකු නැත!');
+        }
+    }
+
+    function startCalculation() {
+        document.getElementById('btnCalculate').style.display = 'none';
+        document.getElementById('calcLoader').style.display = 'block';
+
+        // Simulate calculation animation with 1.5 seconds delay
+        setTimeout(() => {
+            document.getElementById('calcLoader').style.display = 'none';
+            document.getElementById('calcResultDisplay').style.display = 'block';
+            
+            const found = database[currentFoundIndex];
+            
+            // Set Progress Bar and Status
+            document.getElementById('resTrustText').innerText = found.trust + "%";
             const trustInfo = getTrustLevel(found.trust);
             const statusBadge = document.getElementById('resTrustStatus');
             statusBadge.innerText = trustInfo.text;
             statusBadge.style.backgroundColor = trustInfo.color;
             
             const bar = document.getElementById('resTrustBar');
-            bar.style.width = found.trust + "%";
-            bar.innerText = found.trust + "%";
-            bar.style.backgroundColor = trustInfo.color;
+            bar.style.width = "0%";
+            setTimeout(() => {
+                bar.style.width = found.trust + "%";
+                bar.innerText = found.trust + "%";
+                bar.style.backgroundColor = trustInfo.color;
+            }, 100);
 
-            // Suitability display
-            document.getElementById('resMoney').innerHTML = `මුදල් ගනුදෙනු කිරීමට: ${found.money ? '<span class="tag-yes">✓ සුදුසුයි</span>' : '<span class="tag-no">✗ නුසුදුසුයි</span>'}`;
-            document.getElementById('resTrip').innerHTML = `ගමන් යෑමට: ${found.trip ? '<span class="tag-yes">✓ සුදුසුයි</span>' : '<span class="tag-no">✗ නුසුදුසුයි</span>'}`;
-            document.getElementById('resHelp').innerHTML = `උදව් කිරීමට: ${found.help ? '<span class="tag-yes">✓ සුදුසුයි</span>' : '<span class="tag-no">✗ නුසුදුසුයි</span>'}`;
-            document.getElementById('resAskHelp').innerHTML = `උදව් ඉල්ලීමට: ${found.askHelp ? '<span class="tag-yes">✓ සුදුසුයි</span>' : '<span class="tag-no">✗ නුසුදුසුයි</span>'}`;
-            document.getElementById('resHome').innerHTML = `ඔහුගේ නිවසට යෑමට: ${found.home ? '<span class="tag-yes">✓ සුදුසුයි</span>' : '<span class="tag-no">✗ නුසුදුසුයි</span>'}`;
+            // Set Radios Status text
+            document.getElementById('resMoney').innerHTML = `මුදල් ගනුදෙනු කිරීමට: ${found.money ? '<span class="tag-yes">✓ සුදුසුයි</span>' : '<span class="tag-no">✗ නොසුදුසුයි</span>'}`;
+            document.getElementById('resTrip').innerHTML = `ගමන් යෑමට: ${found.trip ? '<span class="tag-yes">✓ සුදුසුයි</span>' : '<span class="tag-no">✗ නොසුදුසුයි</span>'}`;
+            document.getElementById('resHelp').innerHTML = `උදව් කිරීමට: ${found.help ? '<span class="tag-yes">✓ සුදුසුයි</span>' : '<span class="tag-no">✗ නොසුදුසුයි</span>'}`;
+            document.getElementById('resAskHelp').innerHTML = `උදව් ඉල්ලීමට: ${found.askHelp ? '<span class="tag-yes">✓ සුදුසුයි</span>' : '<span class="tag-no">✗ නොසුදුසුයි</span>'}`;
+            document.getElementById('resHome').innerHTML = `ඔහුගේ නිවසට යෑමට: ${found.home ? '<span class="tag-yes">✓ සුදුසුයි</span>' : '<span class="tag-no">✗ නොසුදුසුයි</span>'}`;
 
             document.getElementById('resNote').innerText = found.note;
-            
-            // Reset Views
+
+            // Reset Locks
             document.getElementById('lockState').style.display = 'block';
             document.getElementById('unlockState').style.display = 'none';
             document.getElementById('editForm').style.display = 'none';
             document.getElementById('passInput').value = '';
             document.getElementById('errorMsg').style.display = 'none';
-            
-            resultArea.style.display = 'block';
-        } else {
-            resultArea.style.display = 'none';
-            alert('මෙම නමින් හෝ අංකයෙන් Crib එකේ කිසිවෙකු නැත!');
-        }
+
+        }, 1500);
     }
 
     function unlockNote() {
@@ -314,11 +384,11 @@
             document.getElementById('editTrust').value = item.trust;
             document.getElementById('editNote').value = item.note;
 
-            document.getElementById('editChkMoney').checked = item.money || false;
-            document.getElementById('editChkTrip').checked = item.trip || false;
-            document.getElementById('editChkHelp').checked = item.help || false;
-            document.getElementById('editChkAskHelp').checked = item.askHelp || false;
-            document.getElementById('editChkHome').checked = item.home || false;
+            setRadioVal('editMoney', item.money);
+            setRadioVal('editTrip', item.trip);
+            setRadioVal('editHelp', item.help);
+            setRadioVal('editAskHelp', item.askHelp);
+            setRadioVal('editHome', item.home);
 
             editForm.style.display = 'block';
         } else {
@@ -332,13 +402,13 @@
         let trust = document.getElementById('editTrust').value.trim();
         const note = document.getElementById('editNote').value.trim();
 
-        const money = document.getElementById('editChkMoney').checked;
-        const trip = document.getElementById('editChkTrip').checked;
-        const help = document.getElementById('editChkHelp').checked;
-        const askHelp = document.getElementById('editChkAskHelp').checked;
-        const home = document.getElementById('editChkHome').checked;
+        const money = getRadioVal('editMoney');
+        const trip = getRadioVal('editTrip');
+        const help = getRadioVal('editHelp');
+        const askHelp = getRadioVal('editAskHelp');
+        const home = getRadioVal('editHome');
 
-        if (!name || !phone || !trust || !note) {
+        if (!name || !phone || !trust || !note || money === null || trip === null || help === null || askHelp === null || home === null) {
             alert('සියලුම විස්තර පිරවිය යුතුයි!');
             return;
         }
@@ -349,7 +419,7 @@
         localStorage.setItem('cribDatabase', JSON.stringify(database));
 
         alert('තොරතුරු සාර්ථකව යාවත්කාලීන කරන ලදී!');
-        searchRecord();
+        startCalculation();
     }
 </script>
 
