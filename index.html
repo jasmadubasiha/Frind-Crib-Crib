@@ -50,6 +50,18 @@
         .tag-no { color: #c0392b; }
 
         .edit-section { background: #eaf2f8; padding: 10px; border-radius: 6px; margin-top: 10px; border: 1px solid #aeb6bf; }
+
+        /* POPUP MODAL STYLES */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); display: none; justify-content: center; align-items: center; z-index: 999; }
+        .modal-card { background: white; padding: 25px; border-radius: 12px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2); animation: popIn 0.3s ease-out; }
+        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        
+        .marasi-badge { font-size: 20px; font-weight: bold; padding: 10px 15px; border-radius: 8px; margin: 15px 0; display: inline-block; width: 80%; }
+        .marasi-danger { background-color: #fde8e8; color: #e74c3c; border: 2px solid #e74c3c; }
+        .marasi-safe { background-color: #eafaf1; color: #27ae60; border: 2px solid #27ae60; }
+        
+        .close-modal-btn { background: #34495e; margin-top: 15px; }
+        .close-modal-btn:hover { background: #2c3e50; }
     </style>
 </head>
 <body>
@@ -221,6 +233,19 @@
     </div>
 </div>
 
+<!-- POPUP MODAL -->
+<div id="statusModal" class="modal-overlay">
+    <div class="modal-card">
+        <h3 style="margin-top: 0; color: #8e44ad; font-size: 18px;">විශ්වාසනීයත්ව ප්‍රතිඵලය</h3>
+        <p style="font-size: 14px; margin-bottom: 5px; color: #555;">ගණනය කළ විශ්වාසනීය මට්ටම:</p>
+        <h1 id="modalScoreText" style="margin: 5px 0; color: #2c3e50; font-size: 32px;">0%</h1>
+        
+        <div id="modalMarasiBadge" class="marasi-badge"></div>
+        
+        <button class="close-modal-btn" onclick="closeModal()">හරි (OK)</button>
+    </div>
+</div>
+
 <script>
     let database = JSON.parse(localStorage.getItem('cribDatabase')) || [];
     let currentFoundIndex = -1;
@@ -259,7 +284,7 @@
     function getTrustLevel(score) {
         if (score >= 85) return { text: "Healthy Good", color: "#2ecc71" };
         if (score >= 65) return { text: "Normal Good", color: "#3498db" };
-        if (score >= 45) return { text: "Medium", color: "#f39c12" };
+        if (score >= 50) return { text: "Medium", color: "#f39c12" };
         return { text: "High Risk (අවදානම්)", color: "#e74c3c" };
     }
 
@@ -360,7 +385,6 @@
             document.getElementById('calcResultDisplay').style.display = 'block';
             
             const found = database[currentFoundIndex];
-            
             const calculatedTrust = calculateTrustScore(found);
             
             document.getElementById('resTrustText').innerText = calculatedTrust + "%";
@@ -400,7 +424,29 @@
             document.getElementById('passInput').value = '';
             document.getElementById('errorMsg').style.display = 'none';
 
+            // OPEN POPUP MODAL
+            showModal(calculatedTrust);
+
         }, 1500);
+    }
+
+    function showModal(score) {
+        document.getElementById('modalScoreText').innerText = score + "%";
+        const badge = document.getElementById('modalMarasiBadge');
+        
+        if (score < 50) {
+            badge.innerText = "🚨 මෙම පුද්ගලයා මරසි";
+            badge.className = "marasi-badge marasi-danger";
+        } else {
+            badge.innerText = "✅ මෙම පුද්ගලයා මරසි නැත";
+            badge.className = "marasi-badge marasi-safe";
+        }
+        
+        document.getElementById('statusModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+        document.getElementById('statusModal').style.display = 'none';
     }
 
     function unlockNote() {
