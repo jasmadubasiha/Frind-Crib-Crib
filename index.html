@@ -57,52 +57,63 @@
 <div class="container">
     <h2>Friend Crib System</h2>
 
-    <!-- ADD SECTION -->
-    <h3>1. තොරතුරු ඇතුළත් කිරීම (Add Person)</h3>
-    <div class="input-group">
-        <label>නම (Name):</label>
-        <input type="text" id="addName" placeholder="නම ඇතුළත් කරන්න">
+    <!-- ADD SECTION (LOCKED) -->
+    <h3>1. නව තොරතුරු ඇතුළත් කිරීම (Add Person)</h3>
+    
+    <div id="addLockState" class="secret-box" style="margin-top: 0; margin-bottom: 15px;">
+        <label>තොරතුරු ඇතුළත් කිරීමට Password එක ගසන්න:</label>
+        <input type="password" id="addPassInput" placeholder="Enter Password">
+        <button style="background: #34495e; margin-top: 8px;" onclick="unlockAddForm()">Unlock Add Form</button>
+        <div id="addErrorMsg" class="error-msg">කරුණාකර නිවැරදි Password එක ඇතුළත් කරන්න!</div>
     </div>
 
-    <!-- SUITABILITY RADIOS -->
-    <div class="checkbox-section">
-        <label style="color: #2c3e50; font-size: 14px; margin-bottom: 10px;">1. සුදුසුකම් පරීක්ෂාව (සුදුසුයි නම් +8%):</label>
-        
-        <div class="option-row"><span>මුදල් ගනුදෙනු කිරීමට:</span><div class="radio-options"><label><input type="radio" name="addMoney" value="1"> සුදුසුයි (+8)</label><label><input type="radio" name="addMoney" value="0"> නොසුදුසුයි</label></div></div>
-        <div class="option-row"><span>ගමන් යෑමට:</span><div class="radio-options"><label><input type="radio" name="addTrip" value="1"> සුදුසුයි (+8)</label><label><input type="radio" name="addTrip" value="0"> නොසුදුසුයි</label></div></div>
-        <div class="option-row"><span>උදව් කිරීමට:</span><div class="radio-options"><label><input type="radio" name="addHelp" value="1"> සුදුසුයි (+8)</label><label><input type="radio" name="addHelp" value="0"> නොසුදුසුයි</label></div></div>
-        <div class="option-row"><span>උදව් ඉල්ලීමට:</span><div class="radio-options"><label><input type="radio" name="addAskHelp" value="1"> සුදුසුයි (+8)</label><label><input type="radio" name="addAskHelp" value="0"> නොසුදුසුයි</label></div></div>
-        <div class="option-row"><span>ඔහුගේ නිවසට යෑමට:</span><div class="radio-options"><label><input type="radio" name="addHome" value="1"> සුදුසුයි (+8)</label><label><input type="radio" name="addHome" value="0"> නොසුදුසුයි</label></div></div>
-    </div>
+    <!-- HIDDEN FORM -->
+    <div id="addFormContent" style="display: none;">
+        <div class="input-group">
+            <label>නම (Name):</label>
+            <input type="text" id="addName" placeholder="නම ඇතුළත් කරන්න">
+        </div>
 
-    <!-- NEGATIVE BEHAVIORS -->
-    <div class="checkbox-section" style="background: #fff0f0; border-color: #fbc4c4;">
-        <label style="color: #c0392b; font-size: 14px; margin-bottom: 10px;">2. චරිත ලක්ෂණ / නරක පුරුදු (නැත නම් +8%):</label>
-        
-        <div class="option-row"><span>විශ්වාසය කඩකිරීම:</span><div class="radio-options"><label><input type="radio" name="addBreakTrust" value="1"> ඔව්</label><label><input type="radio" name="addBreakTrust" value="0"> නැත (+8)</label></div></div>
-        <div class="option-row"><span>බොරු කීම:</span><div class="radio-options"><label><input type="radio" name="addLie" value="1"> ඔව්</label><label><input type="radio" name="addLie" value="0"> නැත (+8)</label></div></div>
-        <div class="option-row"><span>මුදල් වංචා කිරීම:</span><div class="radio-options"><label><input type="radio" name="addFraud" value="1"> ඔව්</label><label><input type="radio" name="addFraud" value="0"> නැත (+8)</label></div></div>
-        <div class="option-row"><span>හොර වැඩ කිරීම:</span><div class="radio-options"><label><input type="radio" name="addIllegal" value="1"> ඔව්</label><label><input type="radio" name="addIllegal" value="0"> නැත (+8)</label></div></div>
-    </div>
+        <!-- SUITABILITY RADIOS -->
+        <div class="checkbox-section">
+            <label style="color: #2c3e50; font-size: 14px; margin-bottom: 10px;">1. සුදුසුකම් පරීක්ෂාව (සුදුසුයි නම් +8%):</label>
+            
+            <div class="option-row"><span>මුදල් ගනුදෙනු කිරීමට:</span><div class="radio-options"><label><input type="radio" name="addMoney" value="1"> සුදුසුයි (+8)</label><label><input type="radio" name="addMoney" value="0"> නොසුදුසුයි</label></div></div>
+            <div class="option-row"><span>ගමන් යෑමට:</span><div class="radio-options"><label><input type="radio" name="addTrip" value="1"> සුදුසුයි (+8)</label><label><input type="radio" name="addTrip" value="0"> නොසුදුසුයි</label></div></div>
+            <div class="option-row"><span>උදව් කිරීමට:</span><div class="radio-options"><label><input type="radio" name="addHelp" value="1"> සුදුසුයි (+8)</label><label><input type="radio" name="addHelp" value="0"> නොසුදුසුයි</label></div></div>
+            <div class="option-row"><span>උදව් ඉල්ලීමට:</span><div class="radio-options"><label><input type="radio" name="addAskHelp" value="1"> සුදුසුයි (+8)</label><label><input type="radio" name="addAskHelp" value="0"> නොසුදුසුයි</label></div></div>
+            <div class="option-row"><span>ඔහුගේ නිවසට යෑමට:</span><div class="radio-options"><label><input type="radio" name="addHome" value="1"> සුදුසුයි (+8)</label><label><input type="radio" name="addHome" value="0"> නොසුදුසුයි</label></div></div>
+        </div>
 
-    <!-- SUSPICIOUS LEVEL EVALUATION -->
-    <div class="checkbox-section" style="background: #eef9f1; border-color: #c3e6cb;">
-        <label style="color: #155724; font-size: 14px; margin-bottom: 10px;">3. විශේෂ තත්ත්වය (හොඳයි නම් +10%):</label>
-        <div class="option-row">
-            <span>සැකකිය යුතු මට්ටමෙන්:</span>
-            <div class="radio-options">
-                <label><input type="radio" name="addSuspicion" value="1"> හොඳයි (+10)</label>
-                <label><input type="radio" name="addSuspicion" value="0"> නරකයි</label>
+        <!-- NEGATIVE BEHAVIORS -->
+        <div class="checkbox-section" style="background: #fff0f0; border-color: #fbc4c4;">
+            <label style="color: #c0392b; font-size: 14px; margin-bottom: 10px;">2. චරිත ලක්ෂණ / නරක පුරුදු (නැත නම් +8%):</label>
+            
+            <div class="option-row"><span>විශ්වාසය කඩකිරීම:</span><div class="radio-options"><label><input type="radio" name="addBreakTrust" value="1"> ඔව්</label><label><input type="radio" name="addBreakTrust" value="0"> නැත (+8)</label></div></div>
+            <div class="option-row"><span>බොරු කීම:</span><div class="radio-options"><label><input type="radio" name="addLie" value="1"> ඔව්</label><label><input type="radio" name="addLie" value="0"> නැත (+8)</label></div></div>
+            <div class="option-row"><span>මුදල් වංචා කිරීම:</span><div class="radio-options"><label><input type="radio" name="addFraud" value="1"> ඔව්</label><label><input type="radio" name="addFraud" value="0"> නැත (+8)</label></div></div>
+            <div class="option-row"><span>හොර වැඩ කිරීම:</span><div class="radio-options"><label><input type="radio" name="addIllegal" value="1"> ඔව්</label><label><input type="radio" name="addIllegal" value="0"> නැත (+8)</label></div></div>
+        </div>
+
+        <!-- SUSPICIOUS LEVEL EVALUATION -->
+        <div class="checkbox-section" style="background: #eef9f1; border-color: #c3e6cb;">
+            <label style="color: #155724; font-size: 14px; margin-bottom: 10px;">3. විශේෂ තත්ත්වය (හොඳයි නම් +10%):</label>
+            <div class="option-row">
+                <span>සැකකිය යුතු මට්ටමෙන්:</span>
+                <div class="radio-options">
+                    <label><input type="radio" name="addSuspicion" value="1"> හොඳයි (+10)</label>
+                    <label><input type="radio" name="addSuspicion" value="0"> නරකයි</label>
+                </div>
             </div>
         </div>
+        
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 15px;">
+            <input type="checkbox" id="confirmCheck" style="width:18px; height:18px;">
+            <label for="confirmCheck" style="color: #c0392b; font-weight: bold; margin:0;">මෙම තොරතුරු නිවැරදි බව තහවුරු කරමි (හරි)</label>
+        </div>
+        
+        <button onclick="addRecord()">Crib එකට එකතු කරන්න</button>
     </div>
-    
-    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 15px;">
-        <input type="checkbox" id="confirmCheck" style="width:18px; height:18px;">
-        <label for="confirmCheck" style="color: #c0392b; font-weight: bold; margin:0;">මෙම තොරතුරු නිවැරදි බව තහවුරු කරමි (හරි)</label>
-    </div>
-    
-    <button onclick="addRecord()">Crib එකට එකතු කරන්න</button>
 
     <!-- SEARCH SECTION -->
     <h3>2. සෙවීම (Search Crib)</h3>
@@ -214,24 +225,32 @@
     let database = JSON.parse(localStorage.getItem('cribDatabase')) || [];
     let currentFoundIndex = -1;
 
-    // Automatic Trust % Calculation Function with New Points Logic
-    function calculateTrustScore(data) {
-        let score = 18; // Base score (Base 18 + Max 40 + Max 32 + Max 10 = 100%)
+    // Password Unlock for Add Form
+    function unlockAddForm() {
+        const pass = document.getElementById('addPassInput').value;
+        if (pass === '8545') {
+            document.getElementById('addLockState').style.display = 'none';
+            document.getElementById('addFormContent').style.display = 'block';
+        } else {
+            document.getElementById('addErrorMsg').style.display = 'block';
+        }
+    }
 
-        // Suitability (+8 points for each 'සුදුසුයි')
+    // Automatic Trust % Calculation Function
+    function calculateTrustScore(data) {
+        let score = 18;
+
         if (data.money) score += 8;
         if (data.trip) score += 8;
         if (data.help) score += 8;
         if (data.askHelp) score += 8;
         if (data.home) score += 8;
 
-        // Character Traits (+8 points for each 'නැත' i.e. NO negative trait)
         if (!data.breakTrust) score += 8;
         if (!data.lie) score += 8;
         if (!data.fraud) score += 8;
         if (!data.illegal) score += 8;
 
-        // Suspicion Evaluation (+10 points for 'හොඳයි')
         if (data.suspicion) score += 10;
 
         return Math.min(100, Math.max(0, score));
@@ -290,13 +309,18 @@
 
         alert('තොරතුරු Crib එකට සාර්ථකව එකතු කරන ලදී!');
         
-        // Clear Form
+        // Clear Form & Lock Back
         document.getElementById('addName').value = '';
         document.getElementById('confirmCheck').checked = false;
         ['addMoney','addTrip','addHelp','addAskHelp','addHome','addBreakTrust','addLie','addFraud','addIllegal','addSuspicion'].forEach(n => {
             let r = document.getElementsByName(n);
             if(r.length) { r[0].checked = false; r[1].checked = false; }
         });
+
+        document.getElementById('addFormContent').style.display = 'none';
+        document.getElementById('addLockState').style.display = 'block';
+        document.getElementById('addPassInput').value = '';
+        document.getElementById('addErrorMsg').style.display = 'none';
     }
 
     function searchRecord() {
@@ -337,7 +361,6 @@
             
             const found = database[currentFoundIndex];
             
-            // Calculate Trust dynamically
             const calculatedTrust = calculateTrustScore(found);
             
             document.getElementById('resTrustText').innerText = calculatedTrust + "%";
