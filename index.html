@@ -12,7 +12,7 @@
         
         .input-group { margin-bottom: 12px; }
         label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 13px; color: #333; }
-        input[type="text"], input[type="number"], input[type="password"], textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; box-sizing: border-box; }
+        input[type="text"], input[type="password"], textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; box-sizing: border-box; }
         
         .checkbox-section { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; padding: 12px; margin-bottom: 12px; }
         .option-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 13px; font-weight: 500; }
@@ -37,7 +37,6 @@
         .progress-container { background-color: #e0e0e0; border-radius: 8px; height: 18px; width: 100%; margin-top: 5px; overflow: hidden; }
         .progress-bar { height: 100%; width: 0%; transition: width 1s ease-in-out; text-align: center; color: white; font-size: 11px; line-height: 18px; font-weight: bold; }
 
-        /* Animation Loading Box */
         .loader-box { text-align: center; padding: 15px; display: none; }
         .spinner { border: 4px solid #f3f3f3; border-top: 4px solid #8e44ad; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 0 auto 10px auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
@@ -56,7 +55,7 @@
 <body>
 
 <div class="container">
-    <h2>Friend Crib Database</h2>
+    <h2>Friend Crib System</h2>
 
     <!-- ADD SECTION -->
     <h3>1. තොරතුරු ඇතුළත් කිරීම (Add Person)</h3>
@@ -68,50 +67,26 @@
         <label>දුරකථන අංකය (Phone Number):</label>
         <input type="text" id="addPhone" placeholder="07X XXXXXXX">
     </div>
-    <div class="input-group">
-        <label>විශ්වාසනීයත්වය % (Trust Rate - Max 100%):</label>
-        <input type="number" id="addTrust" min="0" max="100" placeholder="උදා: 80">
+
+    <!-- SUITABILITY RADIOS -->
+    <div class="checkbox-section">
+        <label style="color: #2c3e50; font-size: 14px; margin-bottom: 10px;">1. සුදුසුකම් පරීක්ෂාව:</label>
+        
+        <div class="option-row"><span>මුදල් ගනුදෙනු කිරීමට:</span><div class="radio-options"><label><input type="radio" name="addMoney" value="1"> සුදුසුයි</label><label><input type="radio" name="addMoney" value="0"> නොසුදුසුයි</label></div></div>
+        <div class="option-row"><span>ගමන් යෑමට:</span><div class="radio-options"><label><input type="radio" name="addTrip" value="1"> සුදුසුයි</label><label><input type="radio" name="addTrip" value="0"> නොසුදුසුයි</label></div></div>
+        <div class="option-row"><span>උදව් කිරීමට:</span><div class="radio-options"><label><input type="radio" name="addHelp" value="1"> සුදුසුයි</label><label><input type="radio" name="addHelp" value="0"> නොසුදුසුයි</label></div></div>
+        <div class="option-row"><span>උදව් ඉල්ලීමට:</span><div class="radio-options"><label><input type="radio" name="addAskHelp" value="1"> සුදුසුයි</label><label><input type="radio" name="addAskHelp" value="0"> නොසුදුසුයි</label></div></div>
+        <div class="option-row"><span>ඔහුගේ නිවසට යෑමට:</span><div class="radio-options"><label><input type="radio" name="addHome" value="1"> සුදුසුයි</label><label><input type="radio" name="addHome" value="0"> නොසුදුසුයි</label></div></div>
     </div>
 
-    <!-- SUITABILITY RADIOS (YES / NO) -->
-    <div class="checkbox-section">
-        <label style="color: #2c3e50; font-size: 14px; margin-bottom: 10px;">සුදුසුකම් පරීක්ෂාව:</label>
+    <!-- NEGATIVE BEHAVIORS -->
+    <div class="checkbox-section" style="background: #fff0f0; border-color: #fbc4c4;">
+        <label style="color: #c0392b; font-size: 14px; margin-bottom: 10px;">2. චරිත ලක්ෂණ / නරක පුරුදු:</label>
         
-        <div class="option-row">
-            <span>මුදල් ගනුදෙනු කිරීමට:</span>
-            <div class="radio-options">
-                <label><input type="radio" name="addMoney" value="1"> සුදුසුයි</label>
-                <label><input type="radio" name="addMoney" value="0"> නොසුදුසුයි</label>
-            </div>
-        </div>
-        <div class="option-row">
-            <span>ගමන් යෑමට:</span>
-            <div class="radio-options">
-                <label><input type="radio" name="addTrip" value="1"> සුදුසුයි</label>
-                <label><input type="radio" name="addTrip" value="0"> නොසුදුසුයි</label>
-            </div>
-        </div>
-        <div class="option-row">
-            <span>උදව් කිරීමට:</span>
-            <div class="radio-options">
-                <label><input type="radio" name="addHelp" value="1"> සුදුසුයි</label>
-                <label><input type="radio" name="addHelp" value="0"> නොසුදුසුයි</label>
-            </div>
-        </div>
-        <div class="option-row">
-            <span>උදව් ඉල්ලීමට:</span>
-            <div class="radio-options">
-                <label><input type="radio" name="addAskHelp" value="1"> සුදුසුයි</label>
-                <label><input type="radio" name="addAskHelp" value="0"> නොසුදුසුයි</label>
-            </div>
-        </div>
-        <div class="option-row">
-            <span>ඔහුගේ නිවසට යෑමට:</span>
-            <div class="radio-options">
-                <label><input type="radio" name="addHome" value="1"> සුදුසුයි</label>
-                <label><input type="radio" name="addHome" value="0"> නොසුදුසුයි</label>
-            </div>
-        </div>
+        <div class="option-row"><span>විශ්වාසය කඩකිරීම:</span><div class="radio-options"><label><input type="radio" name="addBreakTrust" value="1"> ඔව්</label><label><input type="radio" name="addBreakTrust" value="0"> නැත</label></div></div>
+        <div class="option-row"><span>බොරු කීම:</span><div class="radio-options"><label><input type="radio" name="addLie" value="1"> ඔව්</label><label><input type="radio" name="addLie" value="0"> නැත</label></div></div>
+        <div class="option-row"><span>මුදල් වංචා කිරීම:</span><div class="radio-options"><label><input type="radio" name="addFraud" value="1"> ඔව්</label><label><input type="radio" name="addFraud" value="0"> නැත</label></div></div>
+        <div class="option-row"><span>හොර වැඩ කිරීම:</span><div class="radio-options"><label><input type="radio" name="addIllegal" value="1"> ඔව්</label><label><input type="radio" name="addIllegal" value="0"> නැත</label></div></div>
     </div>
 
     <div class="input-group">
@@ -142,18 +117,18 @@
             <div class="detail-item"><b>නම:</b> <span id="resName"></span></div>
             <div class="detail-item"><b>දුරකථන අංකය:</b> <span id="resPhone"></span></div>
             
-            <button class="calc-btn" id="btnCalculate" onclick="startCalculation()">🔍 මෙම කෙනාගේ තත්වය පරීක්ෂා කරන්න</button>
+            <button class="calc-btn" id="btnCalculate" onclick="startCalculation()">🔍 මෙම කෙනාගේ තත්වය පරීක්ෂා කරන්න (Calculate Trust)</button>
 
             <!-- ANIMATED LOADER -->
             <div id="calcLoader" class="loader-box">
                 <div class="spinner"></div>
-                <span style="color: #8e44ad; font-weight: bold; font-size: 13px;">තොරතුරු විශ්ලේෂණය කරමින් පවතී...</span>
+                <span style="color: #8e44ad; font-weight: bold; font-size: 13px;">තොරතුරු පදනම් කරගෙන % ගණනය කරමින් පවතී...</span>
             </div>
 
             <!-- CALCULATED HEALTH RESULTS -->
             <div id="calcResultDisplay" style="display: none; margin-top: 15px;">
                 <div class="detail-item">
-                    <b>විශ්වාසනීයත්ව මට්ටම:</b> <span id="resTrustText" style="font-weight: bold;"></span>
+                    <b>ගණනය කළ විශ්වාසනීයත්වය:</b> <span id="resTrustText" style="font-weight: bold;"></span>
                     <span id="resTrustStatus" class="trust-badge"></span>
                     <div class="progress-container">
                         <div id="resTrustBar" class="progress-bar">0%</div>
@@ -179,6 +154,14 @@
                             <li id="resHome"></li>
                         </ul>
 
+                        <label style="color: #c0392b; font-weight: bold; margin-top: 10px; display: block;">චරිත ලක්ෂණ තත්ත්වය:</label>
+                        <ul class="suitability-list">
+                            <li id="resBreakTrust"></li>
+                            <li id="resLie"></li>
+                            <li id="resFraud"></li>
+                            <li id="resIllegal"></li>
+                        </ul>
+
                         <label style="color: #c0392b; font-weight: bold; display: block; margin-top: 10px;">සිදුකළ වැරැද්ද (Note):</label>
                         <p id="resNote" style="margin: 5px 0 10px 0; font-size: 14px; color: #2c3e50; font-weight: 500;"></p>
                         
@@ -195,14 +178,9 @@
                                 <label>අලුත් දුරකථන අංකය:</label>
                                 <input type="text" id="editPhone">
                             </div>
-                            <div class="input-group">
-                                <label>අලුත් Trust %:</label>
-                                <input type="number" id="editTrust" min="0" max="100">
-                            </div>
 
                             <div class="checkbox-section">
-                                <label style="color: #2c3e50; font-size: 13px;">සුදුසුකම් වෙනස් කරන්න:</label>
-                                
+                                <label style="color: #2c3e50; font-size: 13px;">1. සුදුසුකම් වෙනස් කරන්න:</label>
                                 <div class="option-row"><span>මුදල් ගනුදෙනු:</span><div class="radio-options"><label><input type="radio" name="editMoney" value="1"> සුදුසුයි</label><label><input type="radio" name="editMoney" value="0"> නොසුදුසුයි</label></div></div>
                                 <div class="option-row"><span>ගමන් යෑම:</span><div class="radio-options"><label><input type="radio" name="editTrip" value="1"> සුදුසුයි</label><label><input type="radio" name="editTrip" value="0"> නොසුදුසුයි</label></div></div>
                                 <div class="option-row"><span>උදව් කිරීම:</span><div class="radio-options"><label><input type="radio" name="editHelp" value="1"> සුදුසුයි</label><label><input type="radio" name="editHelp" value="0"> නොසුදුසුයි</label></div></div>
@@ -210,11 +188,19 @@
                                 <div class="option-row"><span>නිවසට යෑම:</span><div class="radio-options"><label><input type="radio" name="editHome" value="1"> සුදුසුයි</label><label><input type="radio" name="editHome" value="0"> නොසුදුසුයි</label></div></div>
                             </div>
 
+                            <div class="checkbox-section" style="background: #fff0f0; border-color: #fbc4c4;">
+                                <label style="color: #c0392b; font-size: 13px;">2. චරිත ලක්ෂණ වෙනස් කරන්න:</label>
+                                <div class="option-row"><span>විශ්වාසය කඩකිරීම:</span><div class="radio-options"><label><input type="radio" name="editBreakTrust" value="1"> ඔව්</label><label><input type="radio" name="editBreakTrust" value="0"> නැත</label></div></div>
+                                <div class="option-row"><span>බොරු කීම:</span><div class="radio-options"><label><input type="radio" name="editLie" value="1"> ඔව්</label><label><input type="radio" name="editLie" value="0"> නැත</label></div></div>
+                                <div class="option-row"><span>මුදල් වංචා කිරීම:</span><div class="radio-options"><label><input type="radio" name="editFraud" value="1"> ඔව්</label><label><input type="radio" name="editFraud" value="0"> නැත</label></div></div>
+                                <div class="option-row"><span>හොර වැඩ කිරීම:</span><div class="radio-options"><label><input type="radio" name="editIllegal" value="1"> ඔව්</label><label><input type="radio" name="editIllegal" value="0"> නැත</label></div></div>
+                            </div>
+
                             <div class="input-group">
                                 <label>අලුත් Note එක:</label>
                                 <textarea id="editNote" rows="3"></textarea>
                             </div>
-                            <button class="update-btn" onclick="saveUpdatedRecord()">Save Changes (යාවත්කාලීන කරන්න)</button>
+                            <button class="update-btn" onclick="saveUpdatedRecord()">Save Changes & Recalculate</button>
                         </div>
                     </div>
                 </div>
@@ -226,6 +212,26 @@
 <script>
     let database = JSON.parse(localStorage.getItem('cribDatabase')) || [];
     let currentFoundIndex = -1;
+
+    // Automatic Trust % Calculation Function
+    function calculateTrustScore(data) {
+        let score = 70; // Base score
+
+        // Positive Points (+6 each = +30 max)
+        if (data.money) score += 6;
+        if (data.trip) score += 6;
+        if (data.help) score += 6;
+        if (data.askHelp) score += 6;
+        if (data.home) score += 6;
+
+        // Negative Penalties
+        if (data.breakTrust) score -= 20;
+        if (data.lie) score -= 15;
+        if (data.fraud) score -= 25;
+        if (data.illegal) score -= 20;
+
+        return Math.min(100, Math.max(0, score));
+    }
 
     function getTrustLevel(score) {
         if (score >= 95) return { text: "Healthy Good", color: "#2ecc71" };
@@ -251,7 +257,6 @@
     function addRecord() {
         const name = document.getElementById('addName').value.trim();
         const phone = document.getElementById('addPhone').value.trim();
-        let trust = document.getElementById('addTrust').value.trim();
         const note = document.getElementById('addNote').value.trim();
         const confirmed = document.getElementById('confirmCheck').checked;
 
@@ -261,8 +266,13 @@
         const askHelp = getRadioVal('addAskHelp');
         const home = getRadioVal('addHome');
 
-        if (!name || !phone || !trust || !note || money === null || trip === null || help === null || askHelp === null || home === null) {
-            alert('කරුණාකර සියලු විස්තර සහ සුදුසු/නොසුදුසු තේරීම් ඇතුළත් කරන්න!');
+        const breakTrust = getRadioVal('addBreakTrust');
+        const lie = getRadioVal('addLie');
+        const fraud = getRadioVal('addFraud');
+        const illegal = getRadioVal('addIllegal');
+
+        if (!name || !phone || !note || money === null || trip === null || help === null || askHelp === null || home === null || breakTrust === null || lie === null || fraud === null || illegal === null) {
+            alert('කරුණාකර සියලු විස්තර සහ තේරීම් ඇතුළත් කරන්න!');
             return;
         }
 
@@ -271,9 +281,7 @@
             return;
         }
 
-        trust = Math.min(100, Math.max(0, parseInt(trust) || 0));
-
-        database.push({ name, phone, trust, note, money, trip, help, askHelp, home });
+        database.push({ name, phone, note, money, trip, help, askHelp, home, breakTrust, lie, fraud, illegal });
         localStorage.setItem('cribDatabase', JSON.stringify(database));
 
         alert('තොරතුරු Crib එකට සාර්ථකව එකතු කරන ලදී!');
@@ -281,12 +289,11 @@
         // Clear Form
         document.getElementById('addName').value = '';
         document.getElementById('addPhone').value = '';
-        document.getElementById('addTrust').value = '';
         document.getElementById('addNote').value = '';
         document.getElementById('confirmCheck').checked = false;
-        ['addMoney','addTrip','addHelp','addAskHelp','addHome'].forEach(n => {
+        ['addMoney','addTrip','addHelp','addAskHelp','addHome','addBreakTrust','addLie','addFraud','addIllegal'].forEach(n => {
             let r = document.getElementsByName(n);
-            r[0].checked = false; r[1].checked = false;
+            if(r.length) { r[0].checked = false; r[1].checked = false; }
         });
     }
 
@@ -308,7 +315,6 @@
             document.getElementById('resName').innerText = found.name;
             document.getElementById('resPhone').innerText = found.phone;
             
-            // Hide calculation views initially
             document.getElementById('btnCalculate').style.display = 'block';
             document.getElementById('calcLoader').style.display = 'none';
             document.getElementById('calcResultDisplay').style.display = 'none';
@@ -324,16 +330,17 @@
         document.getElementById('btnCalculate').style.display = 'none';
         document.getElementById('calcLoader').style.display = 'block';
 
-        // Simulate calculation animation with 1.5 seconds delay
         setTimeout(() => {
             document.getElementById('calcLoader').style.display = 'none';
             document.getElementById('calcResultDisplay').style.display = 'block';
             
             const found = database[currentFoundIndex];
             
-            // Set Progress Bar and Status
-            document.getElementById('resTrustText').innerText = found.trust + "%";
-            const trustInfo = getTrustLevel(found.trust);
+            // Calculate Trust dynamically
+            const calculatedTrust = calculateTrustScore(found);
+            
+            document.getElementById('resTrustText').innerText = calculatedTrust + "%";
+            const trustInfo = getTrustLevel(calculatedTrust);
             const statusBadge = document.getElementById('resTrustStatus');
             statusBadge.innerText = trustInfo.text;
             statusBadge.style.backgroundColor = trustInfo.color;
@@ -341,17 +348,23 @@
             const bar = document.getElementById('resTrustBar');
             bar.style.width = "0%";
             setTimeout(() => {
-                bar.style.width = found.trust + "%";
-                bar.innerText = found.trust + "%";
+                bar.style.width = calculatedTrust + "%";
+                bar.innerText = calculatedTrust + "%";
                 bar.style.backgroundColor = trustInfo.color;
             }, 100);
 
-            // Set Radios Status text
+            // Display Suitability
             document.getElementById('resMoney').innerHTML = `මුදල් ගනුදෙනු කිරීමට: ${found.money ? '<span class="tag-yes">✓ සුදුසුයි</span>' : '<span class="tag-no">✗ නොසුදුසුයි</span>'}`;
             document.getElementById('resTrip').innerHTML = `ගමන් යෑමට: ${found.trip ? '<span class="tag-yes">✓ සුදුසුයි</span>' : '<span class="tag-no">✗ නොසුදුසුයි</span>'}`;
             document.getElementById('resHelp').innerHTML = `උදව් කිරීමට: ${found.help ? '<span class="tag-yes">✓ සුදුසුයි</span>' : '<span class="tag-no">✗ නොසුදුසුයි</span>'}`;
             document.getElementById('resAskHelp').innerHTML = `උදව් ඉල්ලීමට: ${found.askHelp ? '<span class="tag-yes">✓ සුදුසුයි</span>' : '<span class="tag-no">✗ නොසුදුසුයි</span>'}`;
             document.getElementById('resHome').innerHTML = `ඔහුගේ නිවසට යෑමට: ${found.home ? '<span class="tag-yes">✓ සුදුසුයි</span>' : '<span class="tag-no">✗ නොසුදුසුයි</span>'}`;
+
+            // Display Negative Traits
+            document.getElementById('resBreakTrust').innerHTML = `විශ්වාසය කඩකිරීම: ${found.breakTrust ? '<span class="tag-no">⚠️ ඔව්</span>' : '<span class="tag-yes">✓ නැත</span>'}`;
+            document.getElementById('resLie').innerHTML = `බොරු කීම: ${found.lie ? '<span class="tag-no">⚠️ ඔව්</span>' : '<span class="tag-yes">✓ නැත</span>'}`;
+            document.getElementById('resFraud').innerHTML = `මුදල් වංචා කිරීම: ${found.fraud ? '<span class="tag-no">⚠️ ඔව්</span>' : '<span class="tag-yes">✓ නැත</span>'}`;
+            document.getElementById('resIllegal').innerHTML = `හොර වැඩ කිරීම: ${found.illegal ? '<span class="tag-no">⚠️ ඔව්</span>' : '<span class="tag-yes">✓ නැත</span>'}`;
 
             document.getElementById('resNote').innerText = found.note;
 
@@ -381,7 +394,6 @@
             const item = database[currentFoundIndex];
             document.getElementById('editName').value = item.name;
             document.getElementById('editPhone').value = item.phone;
-            document.getElementById('editTrust').value = item.trust;
             document.getElementById('editNote').value = item.note;
 
             setRadioVal('editMoney', item.money);
@@ -389,6 +401,11 @@
             setRadioVal('editHelp', item.help);
             setRadioVal('editAskHelp', item.askHelp);
             setRadioVal('editHome', item.home);
+
+            setRadioVal('editBreakTrust', item.breakTrust);
+            setRadioVal('editLie', item.lie);
+            setRadioVal('editFraud', item.fraud);
+            setRadioVal('editIllegal', item.illegal);
 
             editForm.style.display = 'block';
         } else {
@@ -399,7 +416,6 @@
     function saveUpdatedRecord() {
         const name = document.getElementById('editName').value.trim();
         const phone = document.getElementById('editPhone').value.trim();
-        let trust = document.getElementById('editTrust').value.trim();
         const note = document.getElementById('editNote').value.trim();
 
         const money = getRadioVal('editMoney');
@@ -408,14 +424,17 @@
         const askHelp = getRadioVal('editAskHelp');
         const home = getRadioVal('editHome');
 
-        if (!name || !phone || !trust || !note || money === null || trip === null || help === null || askHelp === null || home === null) {
+        const breakTrust = getRadioVal('editBreakTrust');
+        const lie = getRadioVal('editLie');
+        const fraud = getRadioVal('editFraud');
+        const illegal = getRadioVal('editIllegal');
+
+        if (!name || !phone || !note || money === null || trip === null || help === null || askHelp === null || home === null || breakTrust === null || lie === null || fraud === null || illegal === null) {
             alert('සියලුම විස්තර පිරවිය යුතුයි!');
             return;
         }
 
-        trust = Math.min(100, Math.max(0, parseInt(trust) || 0));
-
-        database[currentFoundIndex] = { name, phone, trust, note, money, trip, help, askHelp, home };
+        database[currentFoundIndex] = { name, phone, note, money, trip, help, askHelp, home, breakTrust, lie, fraud, illegal };
         localStorage.setItem('cribDatabase', JSON.stringify(database));
 
         alert('තොරතුරු සාර්ථකව යාවත්කාලීන කරන ලදී!');
