@@ -12,23 +12,38 @@
         
         .input-group { margin-bottom: 12px; }
         label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 13px; color: #333; }
-        input, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; box-sizing: border-box; }
+        input[type="text"], input[type="number"], input[type="password"], textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; box-sizing: border-box; }
+        
+        .checkbox-section { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; padding: 10px; margin-bottom: 12px; }
+        .checkbox-group { display: flex; align-items: center; gap: 10px; margin: 8px 0; }
+        .checkbox-group input { width: 18px; height: 18px; cursor: pointer; }
+        .checkbox-group label { margin: 0; cursor: pointer; font-size: 13px; font-weight: 500; }
+
         button { width: 100%; padding: 10px; background: #c0392b; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 5px; font-size: 14px; }
         button:hover { background: #a93226; }
         
         .search-btn { background: #2980b9; }
         .search-btn:hover { background: #2471a3; }
+        .update-btn { background: #27ae60; margin-top: 10px; }
+        .update-btn:hover { background: #219150; }
         
         .result-card { background: #fff5f5; border: 1px solid #feb2b2; padding: 15px; border-radius: 8px; margin-top: 15px; }
         .status-badge { background: #e74c3c; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; display: inline-block; margin-bottom: 10px; }
+        .trust-badge { padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; color: white; display: inline-block; margin-left: 5px; }
         .detail-item { font-size: 14px; margin-bottom: 8px; color: #333; }
         
-        /* Progress bar for Trust percentage */
         .progress-container { background-color: #e0e0e0; border-radius: 8px; height: 15px; width: 100%; margin-top: 3px; overflow: hidden; }
-        .progress-bar { height: 100%; background-color: #e74c3c; width: 0%; transition: width 0.4s ease; text-align: center; color: white; font-size: 10px; line-height: 15px; font-weight: bold; }
+        .progress-bar { height: 100%; width: 0%; transition: width 0.4s ease; text-align: center; color: white; font-size: 10px; line-height: 15px; font-weight: bold; }
 
-        .secret-box { background: #edf2f7; padding: 10px; border-radius: 6px; margin-top: 15px; border: 1px dashed #cbd5e0; }
+        .secret-box { background: #edf2f7; padding: 12px; border-radius: 6px; margin-top: 15px; border: 1px dashed #cbd5e0; }
         .error-msg { color: #e74c3c; font-size: 12px; margin-top: 5px; display: none; }
+        
+        .suitability-list { list-style: none; padding: 0; margin: 10px 0; }
+        .suitability-list li { font-size: 13px; margin-bottom: 5px; font-weight: 600; }
+        .tag-yes { color: #27ae60; }
+        .tag-no { color: #c0392b; }
+
+        .edit-section { background: #eaf2f8; padding: 10px; border-radius: 6px; margin-top: 10px; border: 1px solid #aeb6bf; }
     </style>
 </head>
 <body>
@@ -48,12 +63,45 @@
     </div>
     <div class="input-group">
         <label>විශ්වාසනීයත්වය % (Trust Rate - Max 100%):</label>
-        <input type="number" id="addTrust" min="0" max="100" placeholder="උදා: 20">
+        <input type="number" id="addTrust" min="0" max="100" placeholder="උදා: 80">
     </div>
+
+    <!-- SUITABILITY CHECKBOXES -->
+    <div class="checkbox-section">
+        <label style="color: #2c3e50; font-size: 14px; margin-bottom: 8px;">සුදුසුකම් පරීක්ෂාව (සුදුසු නම් Tik කරන්න):</label>
+        
+        <div class="checkbox-group">
+            <input type="checkbox" id="addChkMoney">
+            <label for="addChkMoney">මුදල් ගනුදෙනු කිරීමට සුදුසුයි</label>
+        </div>
+        <div class="checkbox-group">
+            <input type="checkbox" id="addChkTrip">
+            <label for="addChkTrip">ගමන් යෑමට සුදුසුයි</label>
+        </div>
+        <div class="checkbox-group">
+            <input type="checkbox" id="addChkHelp">
+            <label for="addChkHelp">උදව් කිරීමට සුදුසුයි</label>
+        </div>
+        <div class="checkbox-group">
+            <input type="checkbox" id="addChkAskHelp">
+            <label for="addChkAskHelp">උදව් ඉල්ලීමට සුදුසුයි</label>
+        </div>
+        <div class="checkbox-group">
+            <input type="checkbox" id="addChkHome">
+            <label for="addChkHome">ඔහුගේ නිවසට යෑමට සුදුසුයි</label>
+        </div>
+    </div>
+
     <div class="input-group">
         <label>සිදුකළ වැරැද්ද (Note):</label>
         <textarea id="addNote" rows="3" placeholder="වැරැද්ද පිළිබඳ විස්තරය..."></textarea>
     </div>
+    
+    <div class="checkbox-group" style="margin-bottom: 15px;">
+        <input type="checkbox" id="confirmCheck">
+        <label for="confirmCheck" style="color: #c0392b; font-weight: bold;">මෙම තොරතුරු නිවැරදි බව තහවුරු කරමි (හරි)</label>
+    </div>
+    
     <button onclick="addRecord()">Crib එකට එකතු කරන්න</button>
 
     <!-- SEARCH SECTION -->
@@ -69,28 +117,71 @@
         <div class="result-card">
             <span class="status-badge">⚠️ FLAGGED IN CRIB</span>
             
-            <!-- Open Info (No Lock) -->
             <div class="detail-item"><b>නම:</b> <span id="resName"></span></div>
             <div class="detail-item"><b>දුරකථන අංකය:</b> <span id="resPhone"></span></div>
             <div class="detail-item">
-                <b>තැබිය හැකි විශ්වාසය:</b> <span id="resTrustText" style="font-weight: bold; color: #c0392b;"></span>
+                <b>විශ්වාසය:</b> <span id="resTrustText" style="font-weight: bold;"></span>
+                <span id="resTrustStatus" class="trust-badge"></span>
                 <div class="progress-container">
                     <div id="resTrustBar" class="progress-bar">0%</div>
                 </div>
             </div>
             
-            <!-- Locked Note Area -->
+            <!-- Locked Area -->
             <div class="secret-box">
                 <div id="lockState">
-                    <label>වැරැද්ද (Note එක) බැලීමට Password එක ගසන්න:</label>
+                    <label>විස්තර & Note එක බැලීමට Password එක ගසන්න:</label>
                     <input type="password" id="passInput" placeholder="Enter Password">
-                    <button style="background: #34495e; margin-top: 8px;" onclick="unlockNote()">Unlock Note</button>
+                    <button style="background: #34495e; margin-top: 8px;" onclick="unlockNote()">Unlock Details & Options</button>
                     <div id="errorMsg" class="error-msg">කරුණාකර නිවැරදි Password එක ඇතුළත් කරන්න!</div>
                 </div>
                 
                 <div id="unlockState" style="display: none;">
-                    <label style="color: #c0392b;"><b>සිදුකළ වැරැද්ද (Note):</b></label>
-                    <p id="resNote" style="margin: 5px 0 0 0; font-size: 14px; color: #2c3e50; font-weight: 500;"></p>
+                    <label style="color: #2c3e50; font-weight: bold;">සුදුසුකම් තත්ත්වය:</label>
+                    <ul class="suitability-list">
+                        <li id="resMoney"></li>
+                        <li id="resTrip"></li>
+                        <li id="resHelp"></li>
+                        <li id="resAskHelp"></li>
+                        <li id="resHome"></li>
+                    </ul>
+
+                    <label style="color: #c0392b; font-weight: bold; display: block; margin-top: 10px;">සිදුකළ වැරැද්ද (Note):</label>
+                    <p id="resNote" style="margin: 5px 0 10px 0; font-size: 14px; color: #2c3e50; font-weight: 500;"></p>
+                    
+                    <button style="background: #d35400; padding: 6px; font-size: 12px;" onclick="toggleEditForm()">✏️ තොරතුරු වෙනස් කරන්න (Edit Details)</button>
+                    
+                    <!-- EDIT FORM -->
+                    <div id="editForm" class="edit-section" style="display: none;">
+                        <h4 style="margin: 0 0 10px 0; color: #2c3e50;">තොරතුරු යාවත්කාලීන කරන්න (Update)</h4>
+                        <div class="input-group">
+                            <label>අලුත් නම:</label>
+                            <input type="text" id="editName">
+                        </div>
+                        <div class="input-group">
+                            <label>අලුත් දුරකථන අංකය:</label>
+                            <input type="text" id="editPhone">
+                        </div>
+                        <div class="input-group">
+                            <label>අලුත් Trust %:</label>
+                            <input type="number" id="editTrust" min="0" max="100">
+                        </div>
+
+                        <div class="checkbox-section">
+                            <label style="color: #2c3e50; font-size: 13px;">සුදුසුකම් වෙනස් කරන්න:</label>
+                            <div class="checkbox-group"><input type="checkbox" id="editChkMoney"><label for="editChkMoney">මුදල් ගනුදෙනු කිරීමට සුදුසුයි</label></div>
+                            <div class="checkbox-group"><input type="checkbox" id="editChkTrip"><label for="editChkTrip">ගමන් යෑමට සුදුසුයි</label></div>
+                            <div class="checkbox-group"><input type="checkbox" id="editChkHelp"><label for="editChkHelp">උදව් කිරීමට සුදුසුයි</label></div>
+                            <div class="checkbox-group"><input type="checkbox" id="editChkAskHelp"><label for="editChkAskHelp">උදව් ඉල්ලීමට සුදුසුයි</label></div>
+                            <div class="checkbox-group"><input type="checkbox" id="editChkHome"><label for="editChkHome">ඔහුගේ නිවසට යෑමට සුදුසුයි</label></div>
+                        </div>
+
+                        <div class="input-group">
+                            <label>අලුත් Note එක:</label>
+                            <textarea id="editNote" rows="3"></textarea>
+                        </div>
+                        <button class="update-btn" onclick="saveUpdatedRecord()">Save Changes (යාවත්කාලීන කරන්න)</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -99,28 +190,56 @@
 
 <script>
     let database = JSON.parse(localStorage.getItem('cribDatabase')) || [];
+    let currentFoundIndex = -1;
+
+    function getTrustLevel(score) {
+        if (score >= 95) return { text: "Healthy Good", color: "#2ecc71" };
+        if (score >= 76) return { text: "Normal Good", color: "#3498db" };
+        if (score >= 51) return { text: "Medium", color: "#f39c12" };
+        return { text: "High Risk (අවදානම්)", color: "#e74c3c" };
+    }
 
     function addRecord() {
         const name = document.getElementById('addName').value.trim();
         const phone = document.getElementById('addPhone').value.trim();
         let trust = document.getElementById('addTrust').value.trim();
         const note = document.getElementById('addNote').value.trim();
+        const confirmed = document.getElementById('confirmCheck').checked;
+
+        const money = document.getElementById('addChkMoney').checked;
+        const trip = document.getElementById('addChkTrip').checked;
+        const help = document.getElementById('addChkHelp').checked;
+        const askHelp = document.getElementById('addChkAskHelp').checked;
+        const home = document.getElementById('addChkHome').checked;
 
         if (!name || !phone || !trust || !note) {
             alert('කරුණාකර සියලු විස්තර ඇතුළත් කරන්න!');
             return;
         }
 
+        if (!confirmed) {
+            alert('කරුණාකර තොරතුරු නිවැරදි බවට ඇති "හරි" box එක Check කරන්න!');
+            return;
+        }
+
         trust = Math.min(100, Math.max(0, parseInt(trust) || 0));
 
-        database.push({ name, phone, trust, note });
+        database.push({ name, phone, trust, note, money, trip, help, askHelp, home });
         localStorage.setItem('cribDatabase', JSON.stringify(database));
 
         alert('තොරතුරු Crib එකට සාර්ථකව එකතු කරන ලදී!');
+        
+        // Form Reset
         document.getElementById('addName').value = '';
         document.getElementById('addPhone').value = '';
         document.getElementById('addTrust').value = '';
         document.getElementById('addNote').value = '';
+        document.getElementById('addChkMoney').checked = false;
+        document.getElementById('addChkTrip').checked = false;
+        document.getElementById('addChkHelp').checked = false;
+        document.getElementById('addChkAskHelp').checked = false;
+        document.getElementById('addChkHome').checked = false;
+        document.getElementById('confirmCheck').checked = false;
     }
 
     function searchRecord() {
@@ -132,30 +251,40 @@
             return;
         }
 
-        const found = database.find(item => 
+        currentFoundIndex = database.findIndex(item => 
             item.name.toLowerCase().includes(query) || item.phone.includes(query)
         );
 
-        if (found) {
+        if (currentFoundIndex !== -1) {
+            const found = database[currentFoundIndex];
             document.getElementById('resName').innerText = found.name;
             document.getElementById('resPhone').innerText = found.phone;
             document.getElementById('resTrustText').innerText = found.trust + "%";
             
-            // Progress Bar Update
+            // Status & Progress Bar
+            const trustInfo = getTrustLevel(found.trust);
+            const statusBadge = document.getElementById('resTrustStatus');
+            statusBadge.innerText = trustInfo.text;
+            statusBadge.style.backgroundColor = trustInfo.color;
+            
             const bar = document.getElementById('resTrustBar');
             bar.style.width = found.trust + "%";
             bar.innerText = found.trust + "%";
-            
-            // Color according to percentage
-            if(found.trust > 70) bar.style.backgroundColor = '#2ecc71';
-            else if(found.trust > 35) bar.style.backgroundColor = '#f39c12';
-            else bar.style.backgroundColor = '#e74c3c';
+            bar.style.backgroundColor = trustInfo.color;
+
+            // Suitability display
+            document.getElementById('resMoney').innerHTML = `මුදල් ගනුදෙනු කිරීමට: ${found.money ? '<span class="tag-yes">✓ සුදුසුයි</span>' : '<span class="tag-no">✗ නුසුදුසුයි</span>'}`;
+            document.getElementById('resTrip').innerHTML = `ගමන් යෑමට: ${found.trip ? '<span class="tag-yes">✓ සුදුසුයි</span>' : '<span class="tag-no">✗ නුසුදුසුයි</span>'}`;
+            document.getElementById('resHelp').innerHTML = `උදව් කිරීමට: ${found.help ? '<span class="tag-yes">✓ සුදුසුයි</span>' : '<span class="tag-no">✗ නුසුදුසුයි</span>'}`;
+            document.getElementById('resAskHelp').innerHTML = `උදව් ඉල්ලීමට: ${found.askHelp ? '<span class="tag-yes">✓ සුදුසුයි</span>' : '<span class="tag-no">✗ නුසුදුසුයි</span>'}`;
+            document.getElementById('resHome').innerHTML = `ඔහුගේ නිවසට යෑමට: ${found.home ? '<span class="tag-yes">✓ සුදුසුයි</span>' : '<span class="tag-no">✗ නුසුදුසුයි</span>'}`;
 
             document.getElementById('resNote').innerText = found.note;
             
-            // Reset Lock View
+            // Reset Views
             document.getElementById('lockState').style.display = 'block';
             document.getElementById('unlockState').style.display = 'none';
+            document.getElementById('editForm').style.display = 'none';
             document.getElementById('passInput').value = '';
             document.getElementById('errorMsg').style.display = 'none';
             
@@ -174,6 +303,53 @@
         } else {
             document.getElementById('errorMsg').style.display = 'block';
         }
+    }
+
+    function toggleEditForm() {
+        const editForm = document.getElementById('editForm');
+        if (editForm.style.display === 'none') {
+            const item = database[currentFoundIndex];
+            document.getElementById('editName').value = item.name;
+            document.getElementById('editPhone').value = item.phone;
+            document.getElementById('editTrust').value = item.trust;
+            document.getElementById('editNote').value = item.note;
+
+            document.getElementById('editChkMoney').checked = item.money || false;
+            document.getElementById('editChkTrip').checked = item.trip || false;
+            document.getElementById('editChkHelp').checked = item.help || false;
+            document.getElementById('editChkAskHelp').checked = item.askHelp || false;
+            document.getElementById('editChkHome').checked = item.home || false;
+
+            editForm.style.display = 'block';
+        } else {
+            editForm.style.display = 'none';
+        }
+    }
+
+    function saveUpdatedRecord() {
+        const name = document.getElementById('editName').value.trim();
+        const phone = document.getElementById('editPhone').value.trim();
+        let trust = document.getElementById('editTrust').value.trim();
+        const note = document.getElementById('editNote').value.trim();
+
+        const money = document.getElementById('editChkMoney').checked;
+        const trip = document.getElementById('editChkTrip').checked;
+        const help = document.getElementById('editChkHelp').checked;
+        const askHelp = document.getElementById('editChkAskHelp').checked;
+        const home = document.getElementById('editChkHome').checked;
+
+        if (!name || !phone || !trust || !note) {
+            alert('සියලුම විස්තර පිරවිය යුතුයි!');
+            return;
+        }
+
+        trust = Math.min(100, Math.max(0, parseInt(trust) || 0));
+
+        database[currentFoundIndex] = { name, phone, trust, note, money, trip, help, askHelp, home };
+        localStorage.setItem('cribDatabase', JSON.stringify(database));
+
+        alert('තොරතුරු සාර්ථකව යාවත්කාලීන කරන ලදී!');
+        searchRecord();
     }
 </script>
 
