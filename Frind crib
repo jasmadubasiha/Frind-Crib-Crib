@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Friend Crib System</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f6f9; padding: 20px; display: flex; justify-content: center; }
+        .container { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); width: 100%; max-width: 500px; }
+        h2 { color: #c0392b; text-align: center; margin-bottom: 20px; }
+        h3 { color: #2c3e50; font-size: 16px; border-bottom: 2px solid #eee; padding-bottom: 5px; margin-top: 20px; }
+        
+        .input-group { margin-bottom: 12px; }
+        label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 13px; color: #333; }
+        input, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; box-sizing: border-box; }
+        button { width: 100%; padding: 10px; background: #c0392b; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 5px; font-size: 14px; }
+        button:hover { background: #a93226; }
+        
+        .search-btn { background: #2980b9; }
+        .search-btn:hover { background: #2471a3; }
+        
+        .result-card { background: #fff5f5; border: 1px solid #feb2b2; padding: 15px; border-radius: 8px; margin-top: 15px; }
+        .status-badge { background: #e74c3c; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; display: inline-block; margin-bottom: 10px; }
+        .detail-item { font-size: 14px; margin-bottom: 8px; color: #333; }
+        
+        /* Progress bar for Trust percentage */
+        .progress-container { background-color: #e0e0e0; border-radius: 8px; height: 15px; width: 100%; margin-top: 3px; overflow: hidden; }
+        .progress-bar { height: 100%; background-color: #e74c3c; width: 0%; transition: width 0.4s ease; text-align: center; color: white; font-size: 10px; line-height: 15px; font-weight: bold; }
+
+        .secret-box { background: #edf2f7; padding: 10px; border-radius: 6px; margin-top: 15px; border: 1px dashed #cbd5e0; }
+        .error-msg { color: #e74c3c; font-size: 12px; margin-top: 5px; display: none; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Friend Crib Database</h2>
+
+    <!-- ADD SECTION -->
+    <h3>1. තොරතුරු ඇතුළත් කිරීම (Add Person)</h3>
+    <div class="input-group">
+        <label>නම (Name):</label>
+        <input type="text" id="addName" placeholder="නම ඇතුළත් කරන්න">
+    </div>
+    <div class="input-group">
+        <label>දුරකථන අංකය (Phone Number):</label>
+        <input type="text" id="addPhone" placeholder="07X XXXXXXX">
+    </div>
+    <div class="input-group">
+        <label>විශ්වාසනීයත්වය % (Trust Rate - Max 100%):</label>
+        <input type="number" id="addTrust" min="0" max="100" placeholder="උදා: 20">
+    </div>
+    <div class="input-group">
+        <label>සිදුකළ වැරැද්ද (Note):</label>
+        <textarea id="addNote" rows="3" placeholder="වැරැද්ද පිළිබඳ විස්තරය..."></textarea>
+    </div>
+    <button onclick="addRecord()">Crib එකට එකතු කරන්න</button>
+
+    <!-- SEARCH SECTION -->
+    <h3>2. සෙවීම (Search Crib)</h3>
+    <div class="input-group">
+        <label>නම හෝ දුරකථන අංකය ඇතුළත් කරන්න:</label>
+        <input type="text" id="searchQuery" placeholder="Search by Name or Phone...">
+    </div>
+    <button class="search-btn" onclick="searchRecord()">සොයන්න (Search)</button>
+
+    <!-- RESULT SECTION -->
+    <div id="resultArea" style="display: none;">
+        <div class="result-card">
+            <span class="status-badge">⚠️ FLAGGED IN CRIB</span>
+            
+            <!-- Open Info (No Lock) -->
+            <div class="detail-item"><b>නම:</b> <span id="resName"></span></div>
+            <div class="detail-item"><b>දුරකථන අංකය:</b> <span id="resPhone"></span></div>
+            <div class="detail-item">
+                <b>තැබිය හැකි විශ්වාසය:</b> <span id="resTrustText" style="font-weight: bold; color: #c0392b;"></span>
+                <div class="progress-container">
+                    <div id="resTrustBar" class="progress-bar">0%</div>
+                </div>
+            </div>
+            
+            <!-- Locked Note Area -->
+            <div class="secret-box">
+                <div id="lockState">
+                    <label>වැරැද්ද (Note එක) බැලීමට Password එක ගසන්න:</label>
+                    <input type="password" id="passInput" placeholder="Enter Password">
+                    <button style="background: #34495e; margin-top: 8px;" onclick="unlockNote()">Unlock Note</button>
+                    <div id="errorMsg" class="error-msg">කරුණාකර නිවැරදි Password එක ඇතුළත් කරන්න!</div>
+                </div>
+                
+                <div id="unlockState" style="display: none;">
+                    <label style="color: #c0392b;"><b>සිදුකළ වැරැද්ද (Note):</b></label>
+                    <p id="resNote" style="margin: 5px 0 0 0; font-size: 14px; color: #2c3e50; font-weight: 500;"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let database = JSON.parse(localStorage.getItem('cribDatabase')) || [];
+
+    function addRecord() {
+        const name = document.getElementById('addName').value.trim();
+        const phone = document.getElementById('addPhone').value.trim();
+        let trust = document.getElementById('addTrust').value.trim();
+        const note = document.getElementById('addNote').value.trim();
+
+        if (!name || !phone || !trust || !note) {
+            alert('කරුණාකර සියලු විස්තර ඇතුළත් කරන්න!');
+            return;
+        }
+
+        trust = Math.min(100, Math.max(0, parseInt(trust) || 0));
+
+        database.push({ name, phone, trust, note });
+        localStorage.setItem('cribDatabase', JSON.stringify(database));
+
+        alert('තොරතුරු Crib එකට සාර්ථකව එකතු කරන ලදී!');
+        document.getElementById('addName').value = '';
+        document.getElementById('addPhone').value = '';
+        document.getElementById('addTrust').value = '';
+        document.getElementById('addNote').value = '';
+    }
+
+    function searchRecord() {
+        const query = document.getElementById('searchQuery').value.trim().toLowerCase();
+        const resultArea = document.getElementById('resultArea');
+        
+        if (!query) {
+            alert('සෙවීමට නමක් හෝ දුරකථන අංකයක් ඇතුළත් කරන්න!');
+            return;
+        }
+
+        const found = database.find(item => 
+            item.name.toLowerCase().includes(query) || item.phone.includes(query)
+        );
+
+        if (found) {
+            document.getElementById('resName').innerText = found.name;
+            document.getElementById('resPhone').innerText = found.phone;
+            document.getElementById('resTrustText').innerText = found.trust + "%";
+            
+            // Progress Bar Update
+            const bar = document.getElementById('resTrustBar');
+            bar.style.width = found.trust + "%";
+            bar.innerText = found.trust + "%";
+            
+            // Color according to percentage
+            if(found.trust > 70) bar.style.backgroundColor = '#2ecc71';
+            else if(found.trust > 35) bar.style.backgroundColor = '#f39c12';
+            else bar.style.backgroundColor = '#e74c3c';
+
+            document.getElementById('resNote').innerText = found.note;
+            
+            // Reset Lock View
+            document.getElementById('lockState').style.display = 'block';
+            document.getElementById('unlockState').style.display = 'none';
+            document.getElementById('passInput').value = '';
+            document.getElementById('errorMsg').style.display = 'none';
+            
+            resultArea.style.display = 'block';
+        } else {
+            resultArea.style.display = 'none';
+            alert('මෙම නමින් හෝ අංකයෙන් Crib එකේ කිසිවෙකු නැත!');
+        }
+    }
+
+    function unlockNote() {
+        const pass = document.getElementById('passInput').value;
+        if (pass === '8545') {
+            document.getElementById('lockState').style.display = 'none';
+            document.getElementById('unlockState').style.display = 'block';
+        } else {
+            document.getElementById('errorMsg').style.display = 'block';
+        }
+    }
+</script>
+
+</body>
+</html>
